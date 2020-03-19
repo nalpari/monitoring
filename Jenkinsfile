@@ -18,11 +18,11 @@ pipeline {
     stage('Build') {
       when {
         expression {
-          param.BUILD == true
+          params.BUILD == true
         }
       }
 
-      steps{
+      steps {
         echo 'mvn claen package'
         sh 'mvn -version'
       }
