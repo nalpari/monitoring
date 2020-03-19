@@ -2,7 +2,7 @@ pipeline {
   agent any
 
   parameters {
-    booleanParam(name: 'BUILD', defaultValue: true, discription: 'Checkout 받은 소스를 빌드합니다')
+    booleanParam(name: 'BUILD', defaultValue: true, description: 'Checkout 받은 소스를 빌드합니다')
   }
 
   stages {
