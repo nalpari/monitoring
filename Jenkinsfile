@@ -3,8 +3,10 @@ pipeline {
   stages {
     stage('init') {
       steps {
-        echo 'Initialize'
-        sh 'pwd'
+        script {
+          echo 'Initialize'
+          sh 'pwd'
+        }
       }
     }
 
