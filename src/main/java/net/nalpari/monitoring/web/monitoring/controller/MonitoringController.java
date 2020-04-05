@@ -1,7 +1,7 @@
-package net.nalpari.monitoring.web.controller;
+package net.nalpari.monitoring.web.monitoring.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import net.nalpari.monitoring.web.model.Sample;
+import net.nalpari.monitoring.web.monitoring.model.Sample;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
