@@ -1,4 +1,4 @@
-package net.nalpari.monitoring.web.model;
+package net.nalpari.monitoring.web.monitoring.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
