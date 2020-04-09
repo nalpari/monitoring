@@ -1,4 +1,5 @@
 def ROLLBACK_PROCESS = false
+def DEPLOY_PATH = "/root/apps/"
 
 pipeline {
   agent any
@@ -9,6 +10,7 @@ pipeline {
 
   parameters {
     booleanParam(name: 'WITHWEB', defaultValue: false, description: 'static 리소스도 같이 배포 합니다.')
+    booleanParam(name: 'RESTART', defaultValue: true, description: '배포후 어플리케이션을 재시작합니다.')
     booleanParam(name: 'ROLLBACK', defaultValue: false, description: '특정 Revision으로 배포합니다.')
     string(name: 'REVISION_NUMBER', defaultValue: '', description: '특정 Revision 번호를 입력 하세요.(생략가능)')
   }
@@ -81,7 +83,7 @@ pipeline {
         steps {
             script {
                 echo '어플리케이션 배포를 진행합니다.'
-                sh 'ls -al'
+                sh 'cp -R targets/monitoring.jar ' + DEPLOY_PATH
             }
         }
     }
@@ -100,5 +102,18 @@ pipeline {
             }
         }
     }
+
+    stage('Restart')
+        when {
+            expression {
+                params.RESTART == true
+            }
+        }
+
+        steps {
+            echo '어플리케이션을 재시작합니다.'
+            sh './root/command/monitoring.sh stop'
+            sh './root/command/monitoring.sh start'
+        }
   }
 }
