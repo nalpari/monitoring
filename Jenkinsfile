@@ -6,7 +6,9 @@ pipeline {
   }
 
   parameters {
-    booleanParam(name: 'BUILD', defaultValue: true, description: 'Checkout 받은 소스를 빌드합니다')
+    booleanParam(name: 'BUILD', defaultValue: true, description: 'Checkout 받은 소스를 빌드합니다'),
+    booleanParam(name: 'DEPLOY', defaultValue: true, description: '소스를 배포 합니다.'),
+    booleanParam(name: 'SERVER', defaultValue: true, description: '서버 구동 상태를 지정합니다.')
   }
 
   stages {
@@ -30,6 +32,19 @@ pipeline {
         echo 'mvn claen package'
         sh '/root/lib/apache-maven-3.6.3/bin/mvn -version'
       }
+    }
+
+    stage('Deploy') {
+        when {
+            expression {
+                params.DEPLOY == true && params.SERVER
+            }
+        }
+
+        steps {
+            echo 'deploy && server'
+            sh 'ls -al'
+        }
     }
   }
 }
