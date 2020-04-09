@@ -1,7 +1,7 @@
+def ROLLBACK_PROCESS = false
+
 pipeline {
   agent any
-
-  def ROLLBACK_PROCESS = false
 
   environment {
     M2_HOME = '/root/lib/apache-maven-3.6.3/bin'
