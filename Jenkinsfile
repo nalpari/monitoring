@@ -111,9 +111,11 @@ pipeline {
         }
 
         steps {
-            echo '어플리케이션을 재시작합니다.'
-            sh './root/command/monitoring.sh stop'
-            sh './root/command/monitoring.sh start'
+            script {
+                echo '어플리케이션을 재시작합니다.'
+                sh './root/command/monitoring.sh stop'
+                sh './root/command/monitoring.sh start'
+            }
         }
   }
 }
