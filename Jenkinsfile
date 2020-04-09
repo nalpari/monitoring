@@ -2,7 +2,7 @@ pipeline {
   agent any
 
   environment {
-    M2_HOME = '/var/jenkins_home/apache-maven-3.6.3'
+    M2_HOME = '/root/lib/apache-maven-3.6.3/bin'
   }
 
   parameters {
@@ -28,7 +28,7 @@ pipeline {
 
       steps {
         echo 'mvn claen package'
-        sh '${env.M2_HOME}/mvn -version'
+        sh '${environment.M2_HOME}/mvn -version'
       }
     }
   }
