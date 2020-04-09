@@ -103,7 +103,7 @@ pipeline {
         }
     }
 
-    stage('Restart')
+    stage('Restart') {
         when {
             expression {
                 params.RESTART == true
@@ -117,5 +117,6 @@ pipeline {
                 sh './root/command/monitoring.sh start'
             }
         }
+    }
   }
 }
