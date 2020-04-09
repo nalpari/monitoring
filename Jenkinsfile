@@ -28,7 +28,7 @@ pipeline {
 
       steps {
         echo 'mvn claen package'
-        sh '${environment.M2_HOME}/mvn -version'
+        sh '/root/lib/apache-maven-3.6.3/bin/mvn -version'
       }
     }
   }
