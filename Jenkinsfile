@@ -83,7 +83,11 @@ pipeline {
         steps {
             script {
                 echo '어플리케이션 배포를 진행합니다.'
-                sh 'cp -R target/monitoring*.jar ' + DEPLOY_PATH + "monitoring.jar"
+                try {
+                    sh 'cp -R target/monitoring*.jar ' + DEPLOY_PATH + "monitoring.jar"
+                } catch(e) {
+                    ROLLBACK_PROCESS = true
+                }
             }
         }
     }
