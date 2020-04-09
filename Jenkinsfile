@@ -6,8 +6,8 @@ pipeline {
   }
 
   parameters {
-    booleanParam(name: 'BUILD', defaultValue: true, description: 'Checkout 받은 소스를 빌드합니다'),
-    booleanParam(name: 'DEPLOY', defaultValue: true, description: '소스를 배포 합니다.'),
+    booleanParam(name: 'BUILD', defaultValue: true, description: 'Checkout 받은 소스를 빌드합니다')
+    booleanParam(name: 'DEPLOY', defaultValue: true, description: '소스를 배포 합니다.')
     booleanParam(name: 'SERVER', defaultValue: true, description: '서버 구동 상태를 지정합니다.')
   }
 
@@ -37,7 +37,7 @@ pipeline {
     stage('Deploy') {
         when {
             expression {
-                params.DEPLOY == true && params.SERVER
+                params.DEPLOY == true && params.SERVER == true
             }
         }
 
