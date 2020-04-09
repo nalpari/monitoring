@@ -28,7 +28,7 @@ pipeline {
 
       steps {
         echo 'mvn claen package'
-        sh '${env.M2_HOME}/mvn -version'
+        sh '${environment.M2_HOME}/mvn -version'
       }
     }
   }
