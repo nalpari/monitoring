@@ -2,7 +2,7 @@ pipeline {
   agent any
 
   environment {
-    M2_HOME = '/var/jenkins_home/apache-maven-3.6.3'
+    M2_HOME = '/var/jenkins_home/apache-maven-3.6.3/bin'
   }
 
   parameters {
