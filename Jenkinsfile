@@ -1,49 +1,103 @@
 pipeline {
   agent any
 
+  def ROLLBACK_PROCESS = false
+
   environment {
     M2_HOME = '/root/lib/apache-maven-3.6.3/bin'
   }
 
   parameters {
-    booleanParam(name: 'BUILD', defaultValue: true, description: 'Checkout 받은 소스를 빌드합니다')
-    booleanParam(name: 'DEPLOY', defaultValue: true, description: '소스를 배포 합니다.')
-    booleanParam(name: 'SERVER', defaultValue: true, description: '서버 구동 상태를 지정합니다.')
+    booleanParam(name: 'WITHWEB', defaultValue: false, description: 'static 리소스도 같이 배포 합니다.')
+    booleanParam(name: 'ROLLBACK', defaultValue: false, description: '특정 Revision으로 배포합니다.')
+    string(name: 'REVISION_NUMBER', defaultValue: '', description: '특정 Revision 번호를 입력 하세요.(생략가능)')
   }
 
   stages {
     stage('Initialize') {
       steps {
         script {
-          echo 'Initialize'
+          echo '준비작업을 진행합니다.'
           sh 'pwd'
+          sh 'ls -al'
         }
       }
     }
 
-    stage('Build') {
+    stage('Build Normal') {
       when {
         expression {
-          params.BUILD == true
+          ROLLBACK_PROCESS == false && params.ROLLBACK == false
         }
       }
 
       steps {
-        echo 'mvn claen package'
-        sh '/root/lib/apache-maven-3.6.3/bin/mvn -version'
+        script {
+            echo '어플리케이션 빌드를 진행합니다.'
+            try {
+                //sh '/root/lib/apache-maven-3.6.3/bin/mvn -version'
+                sh '/root/lib/apache-maven-3.6.3/bin/mvn clean package'
+            } catch (e) {
+                ROLLBACK_PROCESS = true
+            }
+        }
       }
     }
+
+    stage('Build Abnormal') {
+          when {
+            expression {
+              ROLLBACK_PROCESS == false && params.ROLLBACK == true
+            }
+          }
+
+          steps {
+            script {
+                echo '특정 Revision으로 어플리케이션을 빌드합니다.'
+                try {
+                    //sh '/root/lib/apache-maven-3.6.3/bin/mvn -version'
+                    sh 'git checkout' + params.REVISION_NUMBER
+                    sh '/root/lib/apache-maven-3.6.3/bin/mvn clean package'
+                } catch (e) {
+                    ROLLBACK_PROCESS = true
+                }
+            }
+          }
+
+          post {
+              success {
+                  sh 'git checkout master'
+              }
+          }
+        }
 
     stage('Deploy') {
         when {
             expression {
-                params.DEPLOY == true && params.SERVER == true
+                ROLLBACK_PROCESS == false
             }
         }
 
         steps {
-            echo 'deploy && server'
-            sh 'ls -al'
+            script {
+                echo '어플리케이션 배포를 진행합니다.'
+                sh 'ls -al'
+            }
+        }
+    }
+
+    stage('Rollback') {
+        when {
+            expression {
+                ROLLBACK_PROCESS == true
+            }
+        }
+
+        steps {
+            script {
+                echo '어플리케이션을 롤백합니다.'
+                sh 'ls -al'
+            }
         }
     }
   }
