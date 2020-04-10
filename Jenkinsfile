@@ -30,7 +30,7 @@ pipeline {
 	stage('Build Normal') {
 	  when {
 		expression {
-		  ROLLBACK_PROCESS == false && params.ROLLBACK == false
+		  ROLLBACK_PROCESS == false && params.REVISION == false
 		}
 	  }
 
@@ -116,12 +116,13 @@ pipeline {
 		}
 
 		steps {
-			script {
-				echo '어플리케이션을 재시작합니다.'
-				sh '/root/command/monitoring.sh stop'
-				sh 'sleep 5'
-				sh '/root/command/monitoring.sh start'
-			}
+            echo '어플리케이션을 재시작합니다.'
+            sh '/root/command/monitoring.sh stop'
+            sh 'sleep 5'
+            sh 'ls -al /root/apps/'
+            sh 'sleep 5'
+            sh '/root/command/monitoring.sh start'
+            sh 'ls -al /root/apps/'
 		}
 	}
   }
