@@ -87,6 +87,7 @@ pipeline {
 				echo '어플리케이션 배포를 진행합니다.'
 				try {
 					sh 'cp -R target/monitoring*.jar ' + DEPLOY_PATH + "monitoring.jar"
+					sh 'chmod 755 /root/apps/monitoring*'
 				} catch(e) {
 					ROLLBACK_PROCESS = true
 				}
@@ -118,12 +119,13 @@ pipeline {
 
 		steps {
             echo '어플리케이션을 재시작합니다.'
-            sh '/root/command/monitoring.sh stop'
-            sh 'sleep 5'
-            sh 'ls -al /root/apps/'
-            sh 'sleep 5'
-            sh '/root/command/monitoring.sh start'
-            sh 'ls -al /root/apps/'
+            sh '''
+                /root/command/monitoring.sh stop
+                sleep 5
+                ls -al /root/apps/
+                /root/command/monitoring.sh start
+                ls -al /root/apps/
+            '''
 		}
 	}
   }
