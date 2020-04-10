@@ -119,6 +119,7 @@ pipeline {
 			script {
 				echo '어플리케이션을 재시작합니다.'
 				sh '/root/command/monitoring.sh stop'
+				sh 'sleep 5'
 				sh '/root/command/monitoring.sh start'
 			}
 		}
