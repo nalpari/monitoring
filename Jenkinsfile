@@ -9,7 +9,7 @@ pipeline {
   }
 
   parameters {
-	choice(name: 'CHOICE', choices: ['01', '02', '03', '04'], description: '배포할 인스턴스를 선택하세요.')
+	choice(name: 'CHOICE', choices: ['ALL', '01&02', '03&04', '01', '02', '03', '04'], description: '배포할 인스턴스를 선택하세요.')
 	booleanParam(name: 'STATIC', defaultValue: false, description: 'static 리소스도 같이 배포 합니다.')
 	booleanParam(name: 'RESTART', defaultValue: true, description: '배포후 어플리케이션을 재시작합니다.')
 	booleanParam(name: 'REVISION', defaultValue: false, description: '특정 Revision으로 배포합니다.')
