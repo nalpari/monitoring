@@ -23,6 +23,7 @@ pipeline {
 		  echo '준비작업을 진행합니다.'
 		  sh 'pwd'
 		  sh 'ls -al'
+		  sh 'who'
 		}
 	  }
 	}
