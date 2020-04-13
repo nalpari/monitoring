@@ -3,8 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <title>main</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <style>
+        body {
+            padding: 20px;
+        }
+
+        .filePathForm {
+            width: 50%;
+        }
+    </style>
 </head>
 <body>
+<div>
 <h1>메인페이지</h1>
+</div>
+
+<div class="filePathForm">
+    <form name="form" id="filePathForm">
+        <div class="form-group">
+            <label for="filePath">filePath</label>
+            <input type="text" name="filePath" class="form-control" id="filePath" aria-describedby="filePath">
+            <small id="filePathHelp" class="form-text text-muted">filePath를 입력하세요.</small>
+        </div>
+
+        <button type="button" class="btn btn-primary" id="btnChkFilePath">Submit</button>
+    </form>
+
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script>
+    const mainObj = {
+        init: () => {
+            mainObj.bind();
+        },
+
+        bind: () => {
+            $('#btnChkFilePath').off().on('click', mainObj.methods.chkFilePath);
+        },
+
+        methods: {
+            chkFilePath: () => {
+                $.ajax({
+                    url: '/thymeleaf/chkFilePath',
+                    type: 'post',
+                    data: $('#filePathForm').serializeArray(),
+                    success: data => {
+                        console.log('callback');
+                        mainObj.callback.chkFilePath(data);
+                    }
+                });
+            }
+        },
+
+        callback: {
+            chkFilePath: data => {
+                console.log(data);
+            }
+        }
+    };
+
+    mainObj.init();
+</script>
 </body>
 </html>
